@@ -10,7 +10,6 @@ pipeline {
         PHRASE = '$_APP_SERVER_PHRASE_$'
         FRONTEND_PORT = '$_APP_FRONT_PORT_$'
         APP_URL = "http://${env.APP_IP}" // URL base de tu aplicación
-        REMOTE_DEPLOY_DIR = "/home/${REMOTE_USER}/apps/${env.PROJECT_NAME}" // Directorio de despliegue del frontend
     }
     stages {
         stage('Checkout') {
@@ -36,6 +35,7 @@ pipeline {
 					def appNameBase = "${env.PROJECT_NAME}"
 					def workspaceDir = pwd() // Directorio del workspace de Jenkins
 					def credId = 'pruebas-ssh-without-encrypt' // ID de tus credenciales SSH de Jenkins
+                    def REMOTE_DEPLOY_DIR = "/home/${remoteUser}/apps/${env.PROJECT_NAME}" // Directorio de despliegue del frontend
 
                     withCredentials([sshUserPrivateKey(credentialsId: credId, keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: remoteUser)]) {
 					

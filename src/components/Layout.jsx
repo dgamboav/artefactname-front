@@ -1,5 +1,5 @@
 import React from 'react';
-import AppMenu from './Navigation/AppMenu';
+import AppMenu from './navigation/AppMenu';
 import './Layout.css'; // Importa el archivo de estilos del layout
 
 const Layout = ({ children }) => {
