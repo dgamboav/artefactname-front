@@ -56,20 +56,22 @@ pipeline {
                         sleep time: 5, unit: 'SECONDS'
 
                         // 3. Borrar la build anterior en el servidor (opcional)
-                        echo "Borrando la build anterior en: ${env.REMOTE_DEPLOY_DIR}"
-                        sshCommand remote: remote, command: "rm -rf ${env.REMOTE_DEPLOY_DIR}", failOnError: false
+                        echo "Borrando la build anterior en: ${REMOTE_DEPLOY_DIR}"
+                        sshCommand remote: remote, command: "rm -rf ${REMOTE_DEPLOY_DIR}", failOnError: false
 
                         // 4. Crear el directorio de despliegue
-                        echo "Creando el directorio de despliegue: ${env.REMOTE_DEPLOY_DIR}"
-                        sshCommand remote: remote, command: "mkdir -p ${env.REMOTE_DEPLOY_DIR}", failOnError: true
+                        echo "Creando el directorio de despliegue: ${REMOTE_DEPLOY_DIR}"
+                        sshCommand remote: remote, command: "mkdir -p ${REMOTE_DEPLOY_DIR}", failOnError: true
 
                         // 5. Copiar la nueva build (la carpeta 'dist') al servidor
-                        echo "Copiando la nueva build desde: ${workspaceDir}/dist hacia: ${env.REMOTE_DEPLOY_DIR}"
-                        sshCopy remote: remote, from: "${workspaceDir}/dist/", into: "${env.REMOTE_DEPLOY_DIR}/", recursive: true, failOnError: true
+                        echo "Copiando la nueva build desde: ${workspaceDir}/dist hacia: ${REMOTE_DEPLOY_DIR}"
+                        //sshCopy remote: remote, from: "${workspaceDir}/dist/", into: "${REMOTE_DEPLOY_DIR}/", recursive: true, failOnError: true
+			sshPut remote: remote, from: "${workspaceDir}/dist/", into: "${REMOTE_DEPLOY_DIR}/", recursive: true, failOnError: true
+
 
                         // 6. Ajustar permisos (si es necesario)
                         echo "Ajustando permisos en el directorio de despliegue"
-                        sshCommand remote: remote, command: "sudo chown -R ${env.REMOTE_USER}:${env.REMOTE_USER} ${env.REMOTE_DEPLOY_DIR}", failOnError: false
+                        sshCommand remote: remote, command: "sudo chown -R ${remoteUser}:${remoteUser} ${REMOTE_DEPLOY_DIR}", failOnError: false
 
                         // 7. Configurar el servidor web (ejemplo con Nginx)
                         echo "Configurando Nginx para servir la aplicación en el puerto ${env.FRONTEND_PORT}"
@@ -79,7 +81,7 @@ pipeline {
                             listen ${env.FRONTEND_PORT};
                             server_name ${env.APP_IP};
 
-                            root ${env.REMOTE_DEPLOY_DIR};
+                            root ${REMOTE_DEPLOY_DIR};
                             index index.html;
 
                             location / {
