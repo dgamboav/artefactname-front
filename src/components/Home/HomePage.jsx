@@ -1,5 +1,4 @@
 import React from 'react';
-import AppMenu from '../Navigation/AppMenu';
 import './HomePage.css'; // Asegúrate de importar tu archivo de estilos
 
 const HomePage = () => {
