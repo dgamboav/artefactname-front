@@ -39,7 +39,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px auto 0 auto; /* Añadimos un margen superior y centramos horizontalmente */
     overflow: auto;
-    margin-left: 220px; /* Añade un margen izquierdo igual al ancho del menú */
+    margin-left: 150px; /* Añade un margen izquierdo igual al ancho del menú */
     box-sizing: border-box; /* Asegura que el padding no aumente el ancho total */
 }
 
