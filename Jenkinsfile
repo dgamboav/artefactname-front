@@ -59,38 +59,40 @@ pipeline {
                         echo "Borrando la build anterior en: ${REMOTE_DEPLOY_DIR}"
                         sshCommand remote: remote, command: "rm -rf ${REMOTE_DEPLOY_DIR}", failOnError: false
 
-                       // 2. Borrar la configuración anterior (opcional)
+                       // 4. Borrar la configuración anterior (opcional)
                         echo "Borrando la configuración anterior de Nginx para ${env.PROJECT_NAME}"
                         sshCommand remote: remote, command: "sudo rm -f /etc/nginx/sites-available/${env.PROJECT_NAME}.conf", failOnError: false
                         sshCommand remote: remote, command: "sudo rm -f /etc/nginx/sites-enabled/${env.PROJECT_NAME}.conf", failOnError: false
 
-                        // 3. Copiar el archivo de configuración generado
-                        echo "Copiando la configuración de Nginx desde el proyecto hacia el servidor"
-                        sshPut remote: remote, from: "${workspaceDir}/server/nginx.conf", into: "/etc/nginx/sites-available/${env.PROJECT_NAME}.conf", failOnError: true
 
-                        // 4. Crear el directorio de despliegue
+			            // 5. Crear el directorio de despliegue
                         echo "Creando el directorio de despliegue: ${REMOTE_DEPLOY_DIR}"
                         sshCommand remote: remote, command: "mkdir -p ${REMOTE_DEPLOY_DIR}", failOnError: true
 
-                        // 5. Copiar la nueva build (la carpeta 'dist') al servidor
+                        // 5. Copiar el archivo de configuración generado
+                        echo "Copiando la configuración de Nginx desde el proyecto hacia el servidor"
+			    
+			            sshPut remote: remote, from: "${workspaceDir}/src/server/nginx.conf", into: "${REMOTE_DEPLOY_DIR}/${env.PROJECT_NAME}.conf", failOnError: true
+			            sshCommand remote: remote, command: """    sudo mv "${REMOTE_DEPLOY_DIR}/${env.PROJECT_NAME}.conf" "/etc/nginx/sites-available/${env.PROJECT_NAME}.conf" """, failOnError: true
+			    
+                        // 7. Copiar la nueva build (la carpeta 'dist') al servidor
                         echo "Copiando la nueva build desde: ${workspaceDir}/dist hacia: ${REMOTE_DEPLOY_DIR}"
-                        //sshCopy remote: remote, from: "${workspaceDir}/dist/", into: "${REMOTE_DEPLOY_DIR}/", recursive: true, failOnError: true
-			            sshPut remote: remote, from: "${workspaceDir}/dist/", into: "${REMOTE_DEPLOY_DIR}/", recursive: true, failOnError: true
+		                sshPut remote: remote, from: "${workspaceDir}/dist/", into: "${REMOTE_DEPLOY_DIR}/", recursive: true, failOnError: true
 
-                        // 6. Ajustar permisos (si es necesario)
+                        // 8. Ajustar permisos (si es necesario)
                         echo "Ajustando permisos en el directorio de despliegue"
                         sshCommand remote: remote, command: "sudo chown -R ${remoteUser}:${remoteUser} ${REMOTE_DEPLOY_DIR}/dist", failOnError: false
 
-                        // 6. Ajustar permisos para el usuario de Nginx (www-data)
+                        // 9. Ajustar permisos para el usuario de Nginx (www-data)
                         echo "Ajustando permisos para el usuario www-data en el directorio de despliegue"
-                        sshCommand remote: remote, command: "sudo chown -R :www-data ${remoteDeployDir}", failOnError: false
-                        sshCommand remote: remote, command: "sudo chmod -R g+rx ${remoteDeployDir}", failOnError: false
+                        sshCommand remote: remote, command: "sudo chown -R :www-data ${REMOTE_DEPLOY_DIR}", failOnError: false
+                        sshCommand remote: remote, command: "sudo chmod -R g+rx ${REMOTE_DEPLOY_DIR}", failOnError: false
                         echo "Ajustando permisos de lectura para otros en los archivos"
-                        sshCommand remote: remote, command: "sudo chmod -R o+r ${remoteDeployDir}/*", failOnError: false
+                        sshCommand remote: remote, command: "sudo chmod -R o+r ${REMOTE_DEPLOY_DIR}/*", failOnError: false
                         echo "Ajustando permisos de ejecución para otros en los directorios"
-                        sshCommand remote: remote, command: "sudo chmod -R o+x ${remoteDeployDir}", failOnError: false
+                        sshCommand remote: remote, command: "sudo chmod -R o+x ${REMOTE_DEPLOY_DIR}", failOnError: false
 
-                        // 7. Configurar el servidor web (ejemplo con Nginx)
+                        // 10. Configurar el servidor web (ejemplo con Nginx)
                         sshCommand remote: remote, command: "sudo ln -sf /etc/nginx/sites-available/${env.PROJECT_NAME}.conf /etc/nginx/sites-enabled/", failOnError: false
                         sshCommand remote: remote, command: "sudo systemctl restart nginx", failOnError: true
 
