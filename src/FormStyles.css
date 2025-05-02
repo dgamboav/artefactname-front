@@ -76,3 +76,42 @@
   .form-actions button.cancel:hover {
     background-color: #c82333;
   }
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group select,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Redondea los bordes */
+    font-size: 16px;
+    margin-bottom: 15px;
+    width: 100%; /* O el ancho que necesites */
+    box-sizing: border-box; /* Asegura que el padding y el borde no aumenten el ancho total */
+}
+
+/* Estilo al enfocar el input */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none; /* Elimina el borde de enfoque predeterminado del navegador */
+    border-color: #007bff; /* Cambia el color del borde al enfocar */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Añade una sombra sutil al enfocar */
+}
+
+/* Estilos específicos para textarea (si los usas) */
+.form-group textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+/* Estilos para labels (opcional, para mejor alineación) */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
