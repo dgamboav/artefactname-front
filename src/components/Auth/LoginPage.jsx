@@ -25,7 +25,7 @@ const LoginPage = () => {
     setError('');
 
     try {
-        const response = await axios.post(`${API_BASE_URL}/login/api`, { username, password });
+        const response = await axios.post(`${API_BASE_URL}/login`, { username, password });
         const { token } = response.data;
         // Guardar el token en el localStorage
         localStorage.setItem('authToken', token);
