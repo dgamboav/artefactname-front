@@ -1,0 +1,112 @@
+/* Contenedor principal de las pestañas */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    overflow-x: auto; /* Permite scroll horizontal si hay muchas pestañas */
+    white-space: nowrap; /* Evita que los botones de las pestañas se envuelvan */
+}
+
+/* Estilo base para los botones de las pestañas */
+.tabs button {
+    background-color: #f1f1f1;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    color: #555;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    margin-right: 2px; /* Pequeño espacio entre pestañas */
+    flex-shrink: 0; /* Evita que los botones se encojan */
+}
+
+/* Estilo al pasar el ratón por encima de los botones */
+.tabs button:hover {
+    background-color: #e2e2e2;
+}
+
+/* Estilo para la pestaña activa */
+.tabs button.active-tab {
+    background-color: #007bff; /* Color principal de tu aplicación */
+    color: white;
+    border-bottom: 3px solid #007bff; /* Borde inferior para resaltar */
+    font-weight: bold;
+}
+
+/* Contenido de la pestaña */
+.tab-content {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-top: none; /* Para que parezca que el contenido continúa la pestaña */
+    border-radius: 0 0 8px 8px; /* Redondear solo las esquinas inferiores */
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el contenido de las entidades vinculadas dentro de una pestaña */
+.linked-entity-tab-content {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.linked-entity-tab-content h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Estilos para tablas dentro de las pestañas (para OneToMany/ManyToMany) */
+.linked-entity-tab-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.linked-entity-tab-content th,
+.linked-entity-tab-content td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.linked-entity-tab-content th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.linked-entity-tab-content tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Estilos para botones dentro de las grids */
+.linked-entity-tab-content button {
+    background-color: #28a745; /* Color para agregar */
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.linked-entity-tab-content button:hover {
+    background-color: #218838;
+}
+
+.linked-entity-tab-content button.delete-button {
+    background-color: #dc3545; /* Color para eliminar */
+}
+
+.linked-entity-tab-content button.delete-button:hover {
+    background-color: #c82333;
+}
