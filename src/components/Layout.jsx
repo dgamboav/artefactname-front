@@ -4,19 +4,27 @@ import AppMenu from './navigation/AppMenu';
 
 const Layout = ({ children }) => {
   return (
-    // Contenedor principal: flex en fila para sidebar y contenido
-    <div className="flex min-h-screen bg-gray-50 font-inter">
-
-      {/* Sidebar para el menú - visible en pantallas medianas y más grandes */}
-      {/* Se oculta en móviles y se convierte en una columna fija en desktop */}
-      <div className="hidden md:flex md:flex-col md:w-64 bg-gray-800 text-white shadow-lg flex-shrink-0">
-        <AppMenu />
+    <div className="flex flex-col min-h-screen bg-gray-50 font-inter">
+      {/* AppMenu como barra superior para pantallas pequeñas (visible solo en móviles) */}
+      {/* Pasa isMobileTopBar={true} para que se configure como barra superior */}
+      <div className="md:hidden">
+        <AppMenu isMobileTopBar={true} />
       </div>
 
-      {/* Área de contenido principal - se expande para llenar el espacio restante */}
-      <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8 overflow-y-auto">
-        {children}
-      </main>
+      {/* Contenedor principal para el sidebar (desktop) y el contenido principal */}
+      {/* Este div será flex en pantallas md y mayores para acomodar el sidebar y el contenido */}
+      <div className="flex flex-grow">
+        {/* AppMenu como sidebar vertical para pantallas medianas y grandes (oculto en móviles) */}
+        {/* Pasa isMobileTopBar={false} para que se configure como sidebar vertical */}
+        <div className="hidden md:flex md:flex-col md:w-64 bg-gray-800 text-white shadow-lg flex-shrink-0">
+          <AppMenu isMobileTopBar={false} />
+        </div>
+
+        {/* Área de contenido principal - se expande para llenar el espacio restante */}
+        <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8 overflow-y-auto">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };
