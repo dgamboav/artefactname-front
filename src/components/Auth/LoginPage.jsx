@@ -47,7 +47,7 @@ const LoginPage = () => {
       {/* La imagen se coloca con 'bg-[url()]', 'bg-cover', 'bg-center' */}
       {/* 'opacity-70' para la semitransparencia y 'absolute inset-0 z-0' para cubrir todo el fondo */}
       <div
-        className="absolute inset-0 bg-[url('/images/login-gif.gif')] bg-cover bg-center opacity-70 z-0"
+        className="absolute inset-0 bg-[url('/images/login-bg.webp')] bg-cover bg-center opacity-70 z-0"
         aria-hidden="true" // Ocultar para lectores de pantalla
       ></div>
 
